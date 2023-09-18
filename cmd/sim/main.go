@@ -1,7 +1,12 @@
 package main
 
-import "fmt"
+import (
+	"flag"
+	"fmt"
+)
 
 func main() {
-	fmt.Println("hello world")
+	pathPtr := flag.String("path", "", "path of binary to simulate")
+	flag.Parse()
+	fmt.Println("path flag: ", *pathPtr)
 }
