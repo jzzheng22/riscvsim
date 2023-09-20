@@ -22,3 +22,18 @@ func NewErrWrongFormat(f Format, field string) *ErrorWrongFormat {
 func (e *ErrorWrongFormat) Error() string {
 	return e.msg
 }
+
+type ErrorWrongFields struct {
+	msg string
+}
+
+func (e *ErrorWrongFields) Error() string {
+	return e.msg
+}
+
+func NewErrWrongFields(target string, actual Format) *ErrorWrongFields {
+	return &ErrorWrongFields{
+		//TODO: add formatting to this
+		msg: fmt.Sprintf("Error: Trying to get fields from ", target, actual),
+	}
+}

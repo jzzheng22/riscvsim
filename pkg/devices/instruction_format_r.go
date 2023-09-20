@@ -5,27 +5,7 @@ import (
 )
 
 func (c *Cpu) DecodeRInstruction(instruction *instructions.Instruction) error {
-	funct7, err := instruction.GetFunct7()
-	if err != nil {
-		return err
-	}
-
-	funct3, err := instruction.GetFunct3()
-	if err != nil {
-		return err
-	}
-
-	rd, err := instruction.GetRd()
-	if err != nil {
-		return err
-	}
-
-	rs1, err := instruction.GetRs1()
-	if err != nil {
-		return err
-	}
-
-	rs2, err := instruction.GetRs2()
+	rd, rs1, rs2, funct3, funct7, err := instruction.GetRFields()
 	if err != nil {
 		return err
 	}

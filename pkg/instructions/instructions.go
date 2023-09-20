@@ -170,3 +170,63 @@ func (i *Instruction) GetImm() (int32, error) {
 		return i.imm, nil
 	}
 }
+
+// Returns rd, rs1, rs2, funct3, funct7 for R-type instructions
+func (i *Instruction) GetRFields() (int, int, int, int32, int32, error) {
+	switch i.format {
+	case FormatR:
+		return i.rd, i.rs1, i.rs2, i.funct3, i.funct7, nil
+	default:
+		return 0, 0, 0, 0, 0, NewErrWrongFields("R", i.format)
+	}
+}
+
+// Returns rd, rs1, funct3, imm for I-type instructions
+func (i *Instruction) GetIFields() (int, int, int32, int32, error) {
+	switch i.format {
+	case FormatI:
+		return i.rd, i.rs1, i.funct3, i.imm, nil
+	default:
+		return 0, 0, 0, 0, NewErrWrongFields("I", i.format)
+	}
+}
+
+// Returns rs1, rs2, funct3, imm for S-type instructions
+func (i *Instruction) GetSFields() (int, int, int32, int32, error) {
+	switch i.format {
+	case FormatS:
+		return i.rs1, i.rs2, i.funct3, i.imm, nil
+	default:
+		return 0, 0, 0, 0, NewErrWrongFields("S", i.format)
+	}
+}
+
+// Returns rs1, rs2, funct3, imm for B-type instructions
+func (i *Instruction) GetBFields() (int, int, int32, int32, error) {
+	switch i.format {
+	case FormatB:
+		return i.rs1, i.rs2, i.funct3, i.imm, nil
+	default:
+		return 0, 0, 0, 0, NewErrWrongFields("B", i.format)
+	}
+}
+
+// Returns rd, imm for U-type instructions
+func (i *Instruction) GetUFields() (int, int32, error) {
+	switch i.format {
+	case FormatU:
+		return i.rd, i.imm, nil
+	default:
+		return 0, 0, NewErrWrongFields("U", i.format)
+	}
+}
+
+// Returns rd, imm for J-type instructions
+func (i *Instruction) GetJFields() (int, int32, error) {
+	switch i.format {
+	case FormatJ:
+		return i.rd, i.imm, nil
+	default:
+		return 0, 0, NewErrWrongFields("J", i.format)
+	}
+}
