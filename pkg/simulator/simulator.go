@@ -55,6 +55,10 @@ func Simulate(binaryPath string) (int, error) {
 			}
 			return 0, errors.New("Not implemented")
 		case instructions.FormatB:
+			err := cpu.DecodeBInstruction(instruction)
+			// TODO: Handle error
+			if err != nil {
+			}
 			return 0, errors.New("Not implemented")
 		case instructions.FormatU:
 			err := cpu.DecodeUInstruction(instruction)
@@ -67,6 +71,7 @@ func Simulate(binaryPath string) (int, error) {
 			if err != nil {
 			}
 		}
+		// TODO: Probably need to increment PC
 	}
 	// Set exit code
 
