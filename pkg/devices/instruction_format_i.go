@@ -39,7 +39,7 @@ func iInstruction(c *Cpu, opcode, funct3 int32, val1 uint32, imm int32) (uint32,
 		return load()
 	// Immediate
 	case 0b0010011:
-		return immediate()
+		return immediate(funct3, val1, imm)
 	// TODO: Implement FENCE instructions
 	// FENCE
 	case 0b0001111:
@@ -67,6 +67,33 @@ func load() (uint32, error) {
 	return 0, errors.New("load not implemented")
 }
 
-func immediate() (uint32, error) {
-	return 0, errors.New("immediate not implemented")
+func immediate(funct3 int32, val1 uint32, imm int32) (uint32, error) {
+	switch funct3 {
+	// ADDI
+	case 0b000:
+		return val1 + uint32(imm), nil
+	// SLTI
+	case 0b010:
+		if int32(val1) < imm {
+			return 1, nil
+		}
+		return 0, nil
+	// SLTIU
+	case 0b011:
+		if val1 < uint32(imm) {
+			return 1, nil
+		}
+		return 0, nil
+	// XORI
+	case 0b100:
+		return val1 ^ uint32(imm), nil
+	// ORI
+	case 0b110:
+		return val1 | uint32(imm), nil
+	// ANDI
+	case 0b111:
+		return val1 & uint32(imm), nil
+	default:
+		return 0, &instructions.ExceptionIllegalInstruction{}
+	}
 }
