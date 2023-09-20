@@ -16,7 +16,7 @@ func NewCpu() *Cpu {
 	}
 }
 
-func (c *Cpu) GetPC() uint32 {
+func (c *Cpu) GetPc() uint32 {
 	return c.pc
 }
 

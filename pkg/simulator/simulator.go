@@ -26,8 +26,8 @@ func Simulate(binaryPath string) (int, error) {
 
 	// TOOD: Fix this condition
 	// Maybe use ECALL
-	for cpu.GetPC() != 0 {
-		instructionWord, err := cpu.GetMemory().GetWord(cpu.GetPC())
+	for cpu.GetPc() != 0 {
+		instructionWord, err := cpu.GetMemory().GetWord(cpu.GetPc())
 		// TODO: handle error
 		if err != nil {
 		}
