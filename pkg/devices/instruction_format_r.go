@@ -32,14 +32,12 @@ func (c *Cpu) DecodeRInstruction(instruction *instructions.Instruction) error {
 
 	regFile := c.GetRegFile()
 	val1, err := regFile.GetReg(rs1)
-	// TODO: Handle this error
 	if err != nil {
-
+		return err
 	}
 	val2, err := regFile.GetReg(rs2)
-	// TODO: Handle this error
 	if err != nil {
-
+		return err
 	}
 
 	result, err := rInstruction(funct7, funct3, val1, val2)
