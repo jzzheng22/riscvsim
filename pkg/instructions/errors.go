@@ -5,7 +5,7 @@ import "fmt"
 type ExceptionIllegalInstruction struct{}
 
 func (e *ExceptionIllegalInstruction) Error() string {
-	return "Exception Code 0x2: Illegal Instruction"
+	return "Exception Code 0x2: Illegal instruction"
 }
 
 type ErrorWrongFormat struct {
