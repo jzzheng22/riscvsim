@@ -39,11 +39,7 @@ func Simulate(binaryPath string) (int, error) {
 		}
 		switch instruction.GetFormat() {
 		case instructions.FormatR:
-			exc, err := cpu.DecodeRInstruction(instruction)
-			// TODO: Handle exception
-			if exc != nil {
-
-			}
+			err := cpu.DecodeRInstruction(instruction)
 			// TODO: Handle error
 			if err != nil {
 

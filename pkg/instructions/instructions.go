@@ -1,11 +1,5 @@
 package instructions
 
-import (
-	"errors"
-
-	"github.com/jzzheng22/riscvsim/pkg/exceptions"
-)
-
 type Format int
 
 const (
@@ -28,11 +22,11 @@ type Instruction struct {
 	imm    int32
 }
 
-func NewInstruction(instruction int32) (*Instruction, *exceptions.Exception) {
+func NewInstruction(instruction int32) (*Instruction, error) {
 	opcode := instruction & 0b1111111
-	format, exc := decodeFormat(opcode)
-	if exc != nil {
-		return nil, exc
+	format, err := decodeFormat(opcode)
+	if err != nil {
+		return nil, err
 	}
 	return &Instruction{
 		format: format,
@@ -46,7 +40,7 @@ func NewInstruction(instruction int32) (*Instruction, *exceptions.Exception) {
 	}, nil
 }
 
-func decodeFormat(opcode int32) (Format, *exceptions.Exception) {
+func decodeFormat(opcode int32) (Format, error) {
 	switch opcode {
 	// R-type instruction
 	case 0110011:
@@ -85,9 +79,7 @@ func decodeFormat(opcode int32) (Format, *exceptions.Exception) {
 		return FormatJ, nil
 	// Opcode not recognised
 	default:
-		return 0, &exceptions.Exception{
-			ExceptionCode: exceptions.ExceptionIllegalInstruction,
-		}
+		return 0, &ExceptionIllegalInstruction{}
 	}
 }
 
@@ -128,7 +120,7 @@ func (i *Instruction) GetOpcode() int32 {
 func (i *Instruction) GetRd() (int, error) {
 	switch i.format {
 	case FormatS, FormatB:
-		return 0, errors.New("FormatS and FormatB do not have rd")
+		return 0, NewErrWrongFormat(i.format, "rd")
 	default:
 		return i.rd, nil
 	}
@@ -137,7 +129,7 @@ func (i *Instruction) GetRd() (int, error) {
 func (i *Instruction) GetRs1() (int, error) {
 	switch i.format {
 	case FormatU, FormatJ:
-		return 0, errors.New("FormatU and FormatB do not have rs1")
+		return 0, NewErrWrongFormat(i.format, "rs1")
 	default:
 		return i.rs1, nil
 	}
@@ -146,7 +138,7 @@ func (i *Instruction) GetRs1() (int, error) {
 func (i *Instruction) GetRs2() (int, error) {
 	switch i.format {
 	case FormatI, FormatU, FormatJ:
-		return 0, errors.New("FormatI, FormatU, FormatJ do not have rs2")
+		return 0, NewErrWrongFormat(i.format, "rs2")
 	default:
 		return i.rs2, nil
 	}
@@ -155,7 +147,7 @@ func (i *Instruction) GetRs2() (int, error) {
 func (i *Instruction) GetFunct3() (int32, error) {
 	switch i.format {
 	case FormatU, FormatJ:
-		return 0, errors.New("FormatU and FormatJ do not have funct3")
+		return 0, NewErrWrongFormat(i.format, "funct3")
 	default:
 		return i.funct3, nil
 	}
@@ -166,14 +158,14 @@ func (i *Instruction) GetFunct7() (int32, error) {
 	case FormatR:
 		return i.funct7, nil
 	default:
-		return 0, errors.New("Only FormatR has funct7")
+		return 0, NewErrWrongFormat(i.format, "funct7")
 	}
 }
 
 func (i *Instruction) GetImm() (int32, error) {
 	switch i.format {
 	case FormatR:
-		return 0, errors.New("FormatR does not have funct7")
+		return 0, NewErrWrongFormat(i.format, "funct7")
 	default:
 		return i.imm, nil
 	}
