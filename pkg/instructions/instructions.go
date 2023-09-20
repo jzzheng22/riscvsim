@@ -98,7 +98,7 @@ func decodeImmediate(instruction int32, format Format) int32 {
 		imm11 := (instruction >> 7) & 0b1
 		return (imm12 << 12) | (imm11 << 11) | (imm10to5 << 5) | (imm4to1 << 1)
 	case FormatU:
-		return instruction & 0b111111111111
+		return instruction & 0b000000000000
 	case FormatJ:
 		imm20 := instruction >> 31
 		imm10to1 := (instruction >> 21) & 0b1111111111
@@ -212,12 +212,12 @@ func (i *Instruction) GetBFields() (int, int, int32, int32, error) {
 }
 
 // Returns rd, imm for U-type instructions
-func (i *Instruction) GetUFields() (int, int32, error) {
+func (i *Instruction) GetUFields() (int32, int, int32, error) {
 	switch i.format {
 	case FormatU:
-		return i.rd, i.imm, nil
+		return i.opcode, i.rd, i.imm, nil
 	default:
-		return 0, 0, NewErrWrongFields("U", i.format)
+		return 0, 0, 0, NewErrWrongFields("U", i.format)
 	}
 }
 
