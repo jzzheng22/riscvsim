@@ -40,9 +40,11 @@ func iInstruction(c *Cpu, opcode, funct3 int32, val1 uint32, imm int32) (uint32,
 	// Immediate
 	case 0b0010011:
 		return immediate()
+	// TODO: Implement FENCE instructions
 	// FENCE
 	case 0b0001111:
 		return 0, errors.New("FENCE instructions not implemented")
+	// TODO: Implement SYSTEM instructions
 	// SYSTEM
 	case 0b1110011:
 		return 0, errors.New("SYSTEM instructions not implemented")
