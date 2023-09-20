@@ -63,6 +63,7 @@ func jalr(c *Cpu, val1, imm uint32) (uint32, error) {
 	return result, nil
 }
 
+// TODO: Implement this function
 func load() (uint32, error) {
 	return 0, errors.New("load not implemented")
 }
@@ -72,6 +73,10 @@ func immediate(funct3 int32, val1 uint32, imm int32) (uint32, error) {
 	// ADDI
 	case 0b000:
 		return val1 + uint32(imm), nil
+	// SLLI
+	case 0b001:
+		shamt := imm & 0b11111
+		return val1 << shamt, nil
 	// SLTI
 	case 0b010:
 		if int32(val1) < imm {
@@ -87,6 +92,15 @@ func immediate(funct3 int32, val1 uint32, imm int32) (uint32, error) {
 	// XORI
 	case 0b100:
 		return val1 ^ uint32(imm), nil
+	// SRLI, SRAI
+	case 0b101:
+		shamt := imm & 0b11111
+		// SRLI
+		if (imm>>10)&0b1 == 0 {
+			return val1 >> shamt, nil
+		}
+		// SRAI
+		return uint32(int32(val1) >> shamt), nil
 	// ORI
 	case 0b110:
 		return val1 | uint32(imm), nil
@@ -94,6 +108,6 @@ func immediate(funct3 int32, val1 uint32, imm int32) (uint32, error) {
 	case 0b111:
 		return val1 & uint32(imm), nil
 	default:
-		return 0, &instructions.ExceptionIllegalInstruction{}
+		return 0, errors.New("Impossible case in immediate()")
 	}
 }
