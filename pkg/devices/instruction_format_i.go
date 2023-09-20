@@ -33,7 +33,7 @@ func iInstruction(c *Cpu, opcode, funct3 int32, val1 uint32, imm int32) (uint32,
 	// Load
 	case 0b0000011:
 		// TODO: Implement Load instructions
-		return load()
+		return load(val1, imm)
 	// Immediate
 	case 0b0010011:
 		return immediate(funct3, val1, imm)
@@ -62,7 +62,10 @@ func jalr(c *Cpu, val1, imm uint32) (uint32, error) {
 }
 
 // TODO: Implement this function
-func load() (uint32, error) {
+func load(val1 uint32, imm int32) (uint32, error) {
+	byteAddr := uint32(int32(val1) + imm)
+	// Raise exception if rd is x0
+	//
 	return 0, errors.New("load not implemented")
 }
 
