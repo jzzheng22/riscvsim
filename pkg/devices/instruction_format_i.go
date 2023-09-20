@@ -22,11 +22,7 @@ func (c *Cpu) DecodeIInstruction(instruction *instructions.Instruction) error {
 	if err != nil {
 		return err
 	}
-	err = regFile.SetReg(rd, result)
-	if err != nil {
-		return err
-	}
-	return nil
+	return regFile.SetReg(rd, result)
 }
 
 func iInstruction(c *Cpu, opcode, funct3 int32, val1 uint32, imm int32) (uint32, error) {
@@ -36,6 +32,7 @@ func iInstruction(c *Cpu, opcode, funct3 int32, val1 uint32, imm int32) (uint32,
 		return jalr(c, val1, uint32(imm))
 	// Load
 	case 0b0000011:
+		// TODO: Implement Load instructions
 		return load()
 	// Immediate
 	case 0b0010011:

@@ -24,11 +24,7 @@ func (c *Cpu) DecodeRInstruction(instruction *instructions.Instruction) error {
 	if err != nil {
 		return err
 	}
-	err = regFile.SetReg(rd, result)
-	if err != nil {
-		return err
-	}
-	return nil
+	return regFile.SetReg(rd, result)
 }
 
 func rInstruction(funct7, funct3 int32, val1, val2 uint32) (uint32, error) {
