@@ -37,3 +37,9 @@ func NewErrWrongFields(target string, actual Format) *ErrorWrongFields {
 		msg: fmt.Sprintf("Error: Trying to get fields from ", target, actual),
 	}
 }
+
+type ExceptionMisalignedInstructionFetch struct{}
+
+func (e *ExceptionMisalignedInstructionFetch) Error() string {
+	return "Exception Code 0x0: Instruction address misaligned"
+}

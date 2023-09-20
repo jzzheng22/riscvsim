@@ -20,6 +20,10 @@ func (c *Cpu) GetPc() uint32 {
 	return c.pc
 }
 
+func (c *Cpu) SetPc(newPc uint32) {
+	c.pc = newPc
+}
+
 func (c *Cpu) GetMemory() *Memory {
 	return c.memory
 }

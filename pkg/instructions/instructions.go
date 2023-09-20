@@ -182,12 +182,12 @@ func (i *Instruction) GetRFields() (int, int, int, int32, int32, error) {
 }
 
 // Returns rd, rs1, funct3, imm for I-type instructions
-func (i *Instruction) GetIFields() (int, int, int32, int32, error) {
+func (i *Instruction) GetIFields() (int32, int, int, int32, int32, error) {
 	switch i.format {
 	case FormatI:
-		return i.rd, i.rs1, i.funct3, i.imm, nil
+		return i.opcode, i.rd, i.rs1, i.funct3, i.imm, nil
 	default:
-		return 0, 0, 0, 0, NewErrWrongFields("I", i.format)
+		return 0, 0, 0, 0, 0, NewErrWrongFields("I", i.format)
 	}
 }
 
