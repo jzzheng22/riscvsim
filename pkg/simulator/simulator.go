@@ -58,7 +58,10 @@ func Simulate(binaryPath string) (int, error) {
 			if err != nil {
 			}
 		case instructions.FormatJ:
-			return 0, errors.New("Not implemented")
+			err := cpu.DecodeJInstruction(instruction)
+			// TODO: Handle error
+			if err != nil {
+			}
 		}
 	}
 	// Set exit code

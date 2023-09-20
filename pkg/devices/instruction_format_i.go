@@ -50,6 +50,7 @@ func iInstruction(c *Cpu, opcode, funct3 int32, val1 uint32, imm int32) (uint32,
 	}
 }
 
+// TODO: Consider if return-address prediction stack behaviour is needed
 func jalr(c *Cpu, val1, imm uint32) (uint32, error) {
 	targetAddr := (val1 + imm) & (^uint32(1))
 	if targetAddr%4 != 0 {
