@@ -1,12 +1,9 @@
 package devices
 
 import (
-	"errors"
-
 	"github.com/jzzheng22/riscvsim/pkg/instructions"
 )
 
-// TODO: Implement S instructions
 func (c *Cpu) DecodeSInstruction(instruction *instructions.Instruction) error {
 	rs1, rs2, funct3, imm, err := instruction.GetSFields()
 	if err != nil {
@@ -24,17 +21,17 @@ func (c *Cpu) DecodeSInstruction(instruction *instructions.Instruction) error {
 	}
 
 	byteAddr := uint32(int32(val1) + imm)
-
+	memory := c.GetMemory()
 	switch funct3 {
 	// SB
 	case 0b000:
-		return errors.New("SB not implemented")
+		return memory.SetByte(byteAddr, uint8(val2))
 	// SH
 	case 0b001:
-		return errors.New("SH not implemented")
+		return memory.SetHalf(byteAddr, uint16(val2))
 	// SW
 	case 010:
-		return errors.New("SW not implemented")
+		return memory.SetWord(byteAddr, val2)
 	default:
 		return &instructions.ExceptionIllegalInstruction{}
 	}
