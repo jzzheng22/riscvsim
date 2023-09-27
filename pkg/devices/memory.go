@@ -58,6 +58,14 @@ func (m *Memory) SetHalf(addr uint32, value uint16) error {
 	return nil
 }
 
+func (m *Memory) SetByte(addr uint32, value uint8) error {
+	if addr > memorySize {
+		return errors.New("SetByte() tried to access invalid memory address")
+	}
+	shift := (addr % 4) * 8
+	m.memory[addr/4] &= (uint32(value) << shift) & 0xFFFFFFFF
+	return nil
+}
 
 func (m *Memory) GetWord(addr uint32) (uint32, error) {
 	if addr > memorySize {
