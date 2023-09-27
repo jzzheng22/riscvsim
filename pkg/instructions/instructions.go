@@ -2,6 +2,7 @@ package instructions
 
 type Format int
 
+//go:generate go run golang.org/x/tools/cmd/stringer -type=Format
 const (
 	FormatR Format = iota
 	FormatI

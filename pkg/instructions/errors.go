@@ -14,8 +14,7 @@ type ErrorWrongFormat struct {
 
 func NewErrWrongFormat(f Format, field string) *ErrorWrongFormat {
 	return &ErrorWrongFormat{
-		// TODO: Add stringer for Format and fix this call
-		msg: fmt.Sprintf("Error: does not have field ", f, field),
+		msg: fmt.Sprintf("Error: %s does not have field %s", f.String(), field),
 	}
 }
 
@@ -33,8 +32,7 @@ func (e *ErrorWrongFields) Error() string {
 
 func NewErrWrongFields(target string, actual Format) *ErrorWrongFields {
 	return &ErrorWrongFields{
-		//TODO: add formatting to this
-		msg: fmt.Sprintf("Error: Trying to get fields from ", target, actual),
+		msg: fmt.Sprintf("Error: Trying to get %s fields from %s", target, actual.String()),
 	}
 }
 
