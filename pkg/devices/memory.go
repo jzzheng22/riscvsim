@@ -52,3 +52,23 @@ func (m *Memory) GetWord(addr uint32) (uint32, error) {
 	}
 }
 
+func (m *Memory) GetHalf(addr uint32) (uint16, error) {
+	if addr > memorySize {
+		return 0, errors.New("GetWord() tried to access invalid memory address")
+	}
+	switch addr % 4 {
+	case 0:
+		return uint16(m.memory[addr/4] & 0xFFFF), nil
+	case 1:
+		return uint16((m.memory[addr/4] >> 8) & 0xFFFF), nil
+	case 2:
+		return uint16((m.memory[addr/4] >> 16) & 0xFFFF), nil
+	case 3:
+		lowerWord := m.memory[addr/4] & 0xFF000000
+		upperWord := m.memory[addr/4+1] & 0xFF
+		return uint16(upperWord<<8 | lowerWord>>24), nil
+	default:
+		return 0, errors.New("GetHalf() entered illegal default case")
+	}
+}
+
