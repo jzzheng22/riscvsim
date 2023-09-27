@@ -72,3 +72,11 @@ func (m *Memory) GetHalf(addr uint32) (uint16, error) {
 	}
 }
 
+func (m *Memory) GetByte(addr uint32) (uint8, error) {
+	if addr > memorySize {
+		return 0, errors.New("GetWord() tried to access invalid memory address")
+	}
+	word := m.memory[addr/4]
+	shift := (addr % 4) * 8
+	return uint8((word >> shift) & 0xFF), nil
+}
