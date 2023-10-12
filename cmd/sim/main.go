@@ -12,10 +12,9 @@ func main() {
 	flag.Parse()
 	fmt.Println("path flag: ", *pathPtr)
 
-	// TODO: Not sure if this is the best thing to return from Simulate()
-	exitCode, err := simulator.Simulate(*pathPtr)
+	err := simulator.Simulate(*pathPtr)
 	if err != nil {
 		fmt.Println("Error in execution: ", err)
 	}
-	fmt.Println("Simulation exit with code ", exitCode)
+	fmt.Println("Simulation completed successfully")
 }
